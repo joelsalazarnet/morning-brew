@@ -61,6 +61,8 @@ function getLatestVideosFromSubscriptions() {
       });
 
       Logger.log(`Playlist "${playlistTitle}" created successfully. Playlist ID: ${playlist.id}`);
+      // Store the playlist ID in user properties:
+      PropertiesService.getUserProperties().setProperty('appPlaylistId', playlist.id);
     } else {
       Logger.log("No new videos found to add to the playlist.");
     }
@@ -91,5 +93,18 @@ function isShort(videoId) {
   } catch (e) {
     Logger.log("Error checking short duration: " + e.toString());
     return false; //error determining, consider it not a short.
+  }
+}
+
+function deletePlaylist() {
+  const playlistId = PropertiesService.getUserProperties().getProperty('appPlaylistId');
+
+  if (playlistId) {
+    YouTube.Playlists.remove(playlistId);
+    Logger.log(`Playlist ID removed: ${playlistId}`);
+    return playlistId; // Optionally return the ID if you need to use it elsewhere
+  } else {
+    Logger.log("No stored playlist ID found.");
+    return null; // Optionally return null to indicate no ID found
   }
 }
