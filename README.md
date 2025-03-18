@@ -5,7 +5,7 @@ Google App Script to create a playlist containing the latest videos from your Yo
 
 * **Automatic Playlist Generation:** Creates a playlist titled "Latest Videos from Subscriptions (48 Hours)".
 * **Recent Videos:** Fetches videos published within the last 48 hours from your subscriptions.
-* **Shorts Exclusion:** Filters out YouTube Shorts (videos less than 3 minutes).
+* **Video Duration Filtering:** Filters out YouTube Shorts (videos less than 3 minutes) and videos longer than 40 minutes.
 * **Detailed Logging:** Logs progress and errors to the Google Apps Script execution log.
 * **Playlist Privacy Control:** Configurable to create public, unlisted, or private playlists.
 * **Per-Channel Limit:** Retrieves the 10 most recent videos from each subscribed channel.
@@ -27,7 +27,7 @@ Google App Script to create a playlist containing the latest videos from your Yo
     * Create a new script or open an existing one.
 
 2.  **Copy and Paste the Code:**
-    * Copy the provided `getLatestVideosFromSubscriptions()`, `isShort()`, and `deletePlaylist()` functions.
+    * Copy the provided `getLatestVideosFromSubscriptions()`, `isShort()`, `isLong()` and `deletePlaylist()` functions.
     * Paste them into the Google Apps Script editor.
 
 3.  **Enable the YouTube Data API v3:**
@@ -71,7 +71,7 @@ Google App Script to create a playlist containing the latest videos from your Yo
     * Retrieves your YouTube subscriptions.
     * Calculates the date and time 48 hours ago.
     * Iterates through each subscription and searches for recent videos.
-    * Filters out YouTube Shorts using the `isShort()` function.
+    * Filters out YouTube Shorts using the `isShort()` function and videos longer than 40 minutes using the `isLong()` function.
     * Creates a new playlist and adds the filtered videos.
     * Logs progress and errors.
     * Stores the created playlist ID in user properties.
@@ -79,6 +79,10 @@ Google App Script to create a playlist containing the latest videos from your Yo
     * Retrieves the duration of a YouTube video.
     * Parses the duration string to calculate the total seconds.
     * Returns `true` if the duration is less than 3 minutes (180 seconds), indicating a Short.
+* **`isLong(videoId)`:**
+    * Retrieves the duration of a YouTube video.
+    * Parses the duration string to calculate the total seconds.
+    * Returns `true` if the duration is more than 40 minutes (2400 seconds).
 * **`deletePlaylist()`:**
     * Retrieves the playlist ID from user properties.
     * Deletes the playlist if the ID exists.
